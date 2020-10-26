@@ -5,3 +5,8 @@ An introduction to modern cmake can be found [here](https://cliutils.gitlab.io/m
 ## Setup
 Before compiling please do `cp cmake/host-vars.cmake.example cmake/host-vars.cmake`
 and modify as needed
+
+## cmake basics
+
+To configure: `cmake . -Bbuild`. This should be done whener a `CMakeLists.txt` file changes.
+To compile: `cmake --build build`
