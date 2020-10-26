@@ -1,0 +1,1 @@
+set(BAREMETAL_ARM_TOOLCHAIN_PATH /home/aske/Semester/ESD/plnx-2017.4-arm-6.2.1/linux-i386/gcc-arm-linux-gnueabi/bin)
