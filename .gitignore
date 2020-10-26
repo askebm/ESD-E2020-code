@@ -1,0 +1,4 @@
+build/
+cmake/host-vars.cmake
+cmake-build-*
+
