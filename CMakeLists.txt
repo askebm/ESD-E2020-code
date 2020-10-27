@@ -10,6 +10,9 @@ if (NOT USE_SYSTEM_COMPILER)
 	set(CMAKE_TOOLCHAIN_FILE cmake/zybo-toolchain.cmake)
 endif()
 
+#Include a custom target to deply and run executables
+include(cmake/deploy-test.cmake)
+
 #Initialise the project (Checks compiler and stuff)
 project(ESD)
 

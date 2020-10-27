@@ -1,1 +1,8 @@
-set(BAREMETAL_ARM_TOOLCHAIN_PATH /home/aske/Semester/ESD/plnx-2017.4-arm-6.2.1/linux-i386/gcc-arm-linux-gnueabi/bin)
+set(BAREMETAL_ARM_TOOLCHAIN_PATH
+	/home/aske/Semester/ESD/plnx-2017.4-arm-6.2.1/linux-i386/gcc-arm-linux-gnueabi/bin)
+
+set(ZYBO_USER "root")
+set(ZYBO_PASSWORD "42")
+set(ZYBO_IP "192.168.0.222")
+set(ZYBO_DEPLOY_DIR "~/deploy")
+
