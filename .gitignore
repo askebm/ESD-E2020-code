@@ -1,4 +1,6 @@
 build/
 cmake/host-vars.cmake
 cmake-build-*
+compile_commands.json
+.clangd
 
