@@ -1,4 +1,4 @@
-#include <ESD/driver/GPIO.hpp>
+#include <ESD/driver/GPIO.h>
 #include <iostream>
 
 int main(int argc, char *argv[]) {
