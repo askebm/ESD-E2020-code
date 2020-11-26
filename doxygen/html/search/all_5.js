@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['initialize_11',['initialize',['../classzyboGPIO.html#ae9dfe75caa7cb312939458b92ba41634',1,'zyboGPIO']]],
-  ['isinitialised_12',['isInitialised',['../classGPIO.html#ab2a0f82734f6636c81afa8a2f5c2764b',1,'GPIO']]]
+  ['hasvalidpin_16',['hasValidPin',['../classGPIO.html#a8efc8aa56895cbfaab6fdf174435a820',1,'GPIO']]]
 ];

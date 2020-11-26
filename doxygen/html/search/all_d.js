@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['_7egpio_28',['~GPIO',['../classGPIO.html#ae8205f95f108a15a612485b6358031a1',1,'GPIO']]],
-  ['_7ezybogpio_29',['~zyboGPIO',['../classzyboGPIO.html#afc9383324351433d0a379e68890f7885',1,'zyboGPIO']]]
+  ['unexportpin_46',['unExportPin',['../classzyboGPIO.html#acf091adc51ec6b6668183c2ad92a05f9',1,'zyboGPIO::unExportPin()'],['../classGPIO.html#ac00d80c4e18980953275cd217ae2bd52',1,'GPIO::unexportPin()'],['../classGPIO.html#ac00d80c4e18980953275cd217ae2bd52',1,'GPIO::unexportPin()']]]
 ];

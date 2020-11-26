@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['writetofile_55',['writeToFile',['../classGPIO.html#aef39e524aada6c9e607f0b66479eca1f',1,'GPIO::writeToFile(std::string, std::string)'],['../classGPIO.html#a79f81ac60af3c4df3d06dc4de09732a0',1,'GPIO::writeToFile(const std::string &amp;, const std::string &amp;)'],['../classzyboGPIO.html#a4bef4451d216773761b178c379d34aba',1,'zyboGPIO::writeToFile()']]]
+  ['unexportpin_94',['unExportPin',['../classzyboGPIO.html#acf091adc51ec6b6668183c2ad92a05f9',1,'zyboGPIO::unExportPin()'],['../classGPIO.html#ac00d80c4e18980953275cd217ae2bd52',1,'GPIO::unexportPin()'],['../classGPIO.html#ac00d80c4e18980953275cd217ae2bd52',1,'GPIO::unexportPin()']]]
 ];
