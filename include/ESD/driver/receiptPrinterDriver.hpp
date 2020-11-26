@@ -11,6 +11,7 @@ private:
 
     int writeToFile( std::string printer_file, std::string text );
     int readFromFile( std::string printer_file, std::string& text );
+    void sendCommand(int command);
 
 public:
     ReceiptPrinterDriver();
@@ -20,6 +21,7 @@ public:
     void cut();
     void lineFeed();
     void text(std::string text);
+    void initialize();
 };
 
 #endif /* RECEIPTPRINTERDRIVER_H */
