@@ -40,8 +40,10 @@ int StationBox::run() {
            // Unmute the keypad task and wait for 4 numbers
            LOCKED_sm();
             break;
-        default:
-            break;
+        case IDLE:
+            // Unmute keypad and barcode scanner
+
+
             
     }
 
@@ -88,6 +90,7 @@ void StationBox::LOCKED_sm() {
                 }
                 // Reset password sub state
                     mLockedSubState = WAITFOR1;
+                    // Mute keypad
             }
             break;
     }
