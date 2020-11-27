@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.10)
 include(cmake/host-vars.cmake)
 
 #If we want to test the program on computers and not on the zybo 
-option(USE_SYSTEM_COMPILER "Enable system compiler instead of toolchain compiler" OFF)
+option(USE_SYSTEM_COMPILER "Enable system compiler instead of toolchain compiler" ON)
 if (NOT USE_SYSTEM_COMPILER)
 	set(CMAKE_TOOLCHAIN_FILE cmake/zybo-toolchain.cmake)
 endif()
