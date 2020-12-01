@@ -1,4 +1,5 @@
 #include <memory>
+#include <ciso646>
 
 class Event
 {

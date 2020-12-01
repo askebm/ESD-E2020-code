@@ -5,6 +5,7 @@
 #include <mutex>
 #include <queue>
 #include <memory>
+#include <ciso646>
 
 #include <Event/Event.hpp>
 
@@ -13,7 +14,6 @@ class Task
 private:
 
 	std::thread handle;
-	std::string name = "";
 
 	std::atomic<bool> is_alive;
 	std::atomic<bool> is_muted;
@@ -23,6 +23,10 @@ private:
 
 	std::mutex& mtx_events_out;
 	std::queue<Event>& events_out;
+
+public:
+
+	const std::string name;
 
 protected:
 
@@ -41,6 +45,7 @@ protected:
 public:
 
 	Task() = delete;
+	Task(const std::string& name, std::queue<Event>& events_out, std::mutex& mtx_events_out);
 	Task(std::queue<Event>& events_out, std::mutex& mtx_events_out);
 	virtual ~Task();
 
@@ -58,8 +63,8 @@ public:
 
 	void
 	sendEventToTask(const Event& e);
-	
-	static Event
-	get_event(std::queue<Event>& events, std::lock_guard<std::mutex>& lock);
+
+	static std::shared_ptr<Event>
+	getEventFromQueue(std::queue<Event>& events, std::mutex& mutex);
 
 };
