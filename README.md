@@ -19,4 +19,4 @@ To compile: `cmake --build build`
 
 For easy testing of executables a custom target can be added in cmake with
 `add_deploy_target(<executable name>)`, and invoked from the command line 
-`cmake --build build --target deplay_<executable name>`.
+`cmake --build build --target deploy_<executable name>`.
