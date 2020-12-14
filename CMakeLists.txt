@@ -19,6 +19,15 @@ project(ESD)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+#Add packages
+find_package(SDL2)
+if (${SDL2_FOUND})
+	message("Found SDL2")
+else()
+	message("Did not find SDL2")
+endif()
+
+
 add_subdirectory(src)
 add_subdirectory(app)
 
