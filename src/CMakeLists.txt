@@ -10,3 +10,4 @@ target_include_directories(Task PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(Task Event pthread)
 
 
+add_subdirectory(gui)

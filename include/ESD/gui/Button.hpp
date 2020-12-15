@@ -7,8 +7,12 @@ class Button
 {
 private:
 	SDL_Event* event;
-
+	SDL_Rect rectangle;
+	struct {
+		unsigned char r,g,b,a;
+	} color;
 public:
+	void render(SDL_Renderer* r);
 
 	bool isPressed();
 

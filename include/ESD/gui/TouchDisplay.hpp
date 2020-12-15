@@ -7,10 +7,11 @@ class TouchDisplay
 {
 private:
 	SDL_Window* window;
+	SDL_Renderer* renderer;
 
 public:
 	TouchDisplay();
-	virtual ~TouchDisplay();
+	~TouchDisplay();
 };
 
 #endif /* TOUCHDISPLAY_H */
