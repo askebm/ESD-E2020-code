@@ -2,22 +2,23 @@
 #define BUTTON_H
 
 #include <SDL2/SDL.h>
+#include <ESD/gui/GraphicsElement.hpp>
 
-class Button
+class Button : public GraphicsElement
 {
 private:
-	SDL_Event* event;
 	SDL_Rect rectangle;
 	struct {
 		unsigned char r,g,b,a;
 	} color;
 public:
 	void render(SDL_Renderer* r);
+	void process(SDL_Event* e);
 
-	bool isPressed();
+	bool isPressed(SDL_Event* event);
 
-	Button(SDL_Event* event);
-	virtual ~Button();
+	Button();
+	~Button();
 };
 
 #endif /* BUTTON_H */

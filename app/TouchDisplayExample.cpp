@@ -5,8 +5,9 @@ int main(int argc, char *argv[]) {
 
 	TouchDisplay disp;
 
-	int a;
-	std::cin >> a;
+	while (true) {
+		disp.process();
+	}
 
 	return 0;
 }
