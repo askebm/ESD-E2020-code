@@ -16,8 +16,8 @@ public:
 
 	Event() = delete;
 	
-	template<typename T>
-	Event(int id, const T& data) : id(id) { this->data = std::make_shared<T>(T(data)); };
+	template<typename T = void*>
+	Event(int id, const T& data = nullptr) : id(id) { this->data = std::make_shared<T>(T(data)); };
 
 	template<typename T>
 	auto getData() { return *std::static_pointer_cast<T>(this->data); }

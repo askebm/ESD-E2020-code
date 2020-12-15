@@ -10,7 +10,7 @@ main(int argc, char const *argv[])
 	// Event
 	
 	enum Events
-	{ SOME_EVENT = 420 + 69, OTHER_EVENT = 123 + 456 };
+	{ SOME_EVENT = 420 + 69, OTHER_EVENT = 123 + 456 , EMPTY_EVENT = 31415 };
 	
 	// test with std::string
 	{
@@ -47,6 +47,7 @@ main(int argc, char const *argv[])
 		// create data and event
 		struct MsgType { int a; std::string text; };
 		auto event = Event(SOME_EVENT, MsgType{ 1, "hello" } );
+		// auto event = Event(EMPTY_EVENT); // event w/o data
 		
 		// switches
 		switch (event)
