@@ -11,10 +11,10 @@ class DisplayDriver
 public: // members
 
 	// using DisplayLines = std::array<std::string, 2>;
-	struct DisplayLines { std::string line_upper; std::string line_lower; };
+	struct DisplayLines { std::string line_upper, line_lower; };
 	
 	static constexpr auto NUM_CHAR_PER_LINE = 20;
-	static constexpr auto DRIVER_VERSION    = "1.0.4";
+	static constexpr auto DRIVER_VERSION    = "1.0.5";
 	
 	const std::string  device;
 	const int          baudrate;
