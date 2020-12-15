@@ -19,6 +19,10 @@ project(ESD)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# add external libraries (must come before project dirs)
+add_subdirectory(extern/serialib)
+
+# add project directories
 add_subdirectory(src)
 add_subdirectory(app)
 
