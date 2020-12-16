@@ -26,6 +26,20 @@ if (${SDL2_FOUND})
 else()
 	message("Did not find SDL2")
 endif()
+find_package(PkgConfig)
+if (${PkgConfig_FOUND})
+	message("Found PkgConfig")
+else()
+	message("Did not find PkgConfig")
+endif()
+
+pkg_check_modules(SDL2_TTF SDL2_ttf)
+if (${SDL2_TTF_FOUND})
+	message("Found SDL2_TTF")
+else()
+	message("Did not find SDL2_TTF")
+endif()
+
 
 
 add_subdirectory(src)

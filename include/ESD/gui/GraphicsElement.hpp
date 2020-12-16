@@ -2,6 +2,7 @@
 #define GRAPHICSELEMENT_H
 #include <SDL2/SDL.h>
 
+
 class GraphicsElement
 {
 public:

@@ -2,6 +2,9 @@
 #include <iostream>
 
 #include <ESD/gui/Button.hpp>
+#include <ESD/gui/Colors.hpp>
+
+#include <SDL2/SDL_ttf.h>
 
 TouchDisplay::TouchDisplay() {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0 ){
@@ -16,18 +19,23 @@ TouchDisplay::TouchDisplay() {
 	if (renderer == nullptr) {
 		std::cout << SDL_GetError() << std::endl;
 	}
+	if (TTF_Init() != 0){
+		std::cout << SDL_GetError() << std::endl;
+	}
+
 	SDL_SetRenderDrawColor(renderer,0,0,0,255);
 	SDL_RenderClear(renderer);
 	SDL_RenderPresent(renderer);
 
-	auto btn = new Button();
+	auto btn = Button::Small(0,0,Colors::amber,renderer);
 	elements.push_back(btn);
-
-
+	btn = Button::Small(128,128,Colors::antique_ruby,renderer);
+	elements.push_back(btn);
 }
 
 
 void TouchDisplay::process(){
+	// Handle Events
 	SDL_Event event;
 	if (SDL_PollEvent(&event)){
 		for (const auto&	e : this->elements) {
@@ -35,6 +43,7 @@ void TouchDisplay::process(){
 		}
 	}
 
+	// Render result
 	SDL_SetRenderDrawColor(renderer,0,0,0,255);
 	SDL_RenderClear(renderer);
 	for (const auto&	e : this->elements) {
