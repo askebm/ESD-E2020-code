@@ -40,6 +40,14 @@ else()
 	message("Did not find SDL2_TTF")
 endif()
 
+pkg_check_modules(ZMQ libzmq>=4.2.2)
+if (${ZMQ_FOUND})
+	message("Found ZMQ")
+else()
+	message("Did not find ZMQ")
+endif()
+
+add_subdirectory(extern/interface_lib)
 
 
 add_subdirectory(src)
