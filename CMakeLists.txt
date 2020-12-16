@@ -19,6 +19,8 @@ project(ESD)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# add external libraries (must come before project dirs)
+add_subdirectory(extern/serialib)
 #Add packages
 find_package(SDL2)
 if (${SDL2_FOUND})
@@ -50,6 +52,7 @@ endif()
 add_subdirectory(extern/interface_lib)
 
 
+# add project directories
 add_subdirectory(src)
 add_subdirectory(app)
 

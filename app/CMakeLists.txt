@@ -14,6 +14,13 @@ target_link_libraries(event_example Event)
 add_executable(task_example task_example.cpp)
 target_link_libraries(task_example Task)
 
+add_executable(display_example display_example.cpp)
+target_link_libraries(display_example DisplayDriver)
+
+add_executable(display_task_example display_task_example.cpp)
+target_link_libraries(display_task_example DisplayDriverTask)
+
+
 add_executable(TouchDisplayExample TouchDisplayExample.cpp)
 target_include_directories(TouchDisplayExample  PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(TouchDisplayExample TouchDisplay)
