@@ -1,3 +1,5 @@
+#include <ESD/gui/DynamicReceipt.hpp>
+#include <receipt.hpp>
 #include <ESD/gui/TouchDisplay.hpp>
 #include <iostream>
 
@@ -27,10 +29,21 @@ TouchDisplay::TouchDisplay() {
 	SDL_RenderClear(renderer);
 	SDL_RenderPresent(renderer);
 
-	auto btn = Button::Small(0,0,Colors::amber,renderer);
+	auto rec  = new Receipt;
+	DynamicReceipt* drec = new DynamicReceipt(rec);
+
+	rec->addReceiptLine(100,"Test",22,3);
+	elements.push_back(drec);
+
+	rec->addReceiptLine(101,"Test2",22,3);
+	elements.push_back(drec);
+
+	auto btn = Button::Small(400,0,Colors::amber,renderer);
 	elements.push_back(btn);
-	btn = Button::Small(128,128,Colors::antique_ruby,renderer);
+	btn = Button::Small(400,128,Colors::antique_ruby,renderer);
 	elements.push_back(btn);
+
+
 }
 
 
