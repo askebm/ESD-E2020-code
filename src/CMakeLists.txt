@@ -17,5 +17,8 @@ add_library(DisplayDriverTask DisplayDriverTask.cpp)
 target_include_directories(DisplayDriverTask PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(DisplayDriverTask Task DisplayDriver)
 
+add_library(USBDriver USBDriver.cpp)
+target_include_directories(USBDriver PUBLIC ${PROJECT_SOURCE_DIR}/include)
+
 
 add_subdirectory(gui)
