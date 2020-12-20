@@ -1,61 +1,51 @@
 #include <USBDriver/USBDriver.hpp>
 
-int USBDriver::openDevice(std::string path)
+
+bool USBDriver::openDevice(std::string path)
 {
-
-    std::cout << "TEST " << path<< std::endl;
     data_path = path.c_str();
- fd;
-
     fd = open(data_path, O_RDONLY);
-    if(fd == -1)
-    std::cout <<"ERROR: Cannot open "+ std::string(data_path) << std::endl;
-//    assert(("Error: Cannot open "+ std::string(data_path),fd  == -1 ));
+    if(fd == -1){
+        std::cout <<"ERROR: Cannot open "+ std::string(data_path) << std::endl;
+        assert(fd  == -1);
+        return 0;
+    }
     return 1;
 }
 
 char USBDriver::getDatafromUSB()
 {
-    int dummy;
-    //std::cout << data_path << "hello0" << std::endl;
     ssize_t temp = read(fd, &ev, sizeof ev);
-    //std::cout << data_path << "hello0.5" << std::endl;
     if (temp == (ssize_t)-1)
     {
-    //std::cout << std::string(data_path) << "hello1" << std::endl;
         if (errno == EINTR)
+        {
+            std::cout << "Error: Cannot get data from device: "+ std::string(data_path)<< std::endl;
+            assert(errno != EINTR);
             return NULL;
-
-        assert(("Error: Cannot get data from device: "+ std::string(data_path),errno != EINTR));
-
+        }
     }
     else if (temp != sizeof ev) {
-    std::cout << std::string(data_path) << "hello2" << std::endl;
         errno = EIO;
-        assert(("Error: Cannot get data from device: "+ std::string(data_path),temp != sizeof ev ));
+        std::cout << "Error: Cannot get data from device: "+ std::string(data_path)<< std::endl;
+        assert(temp != sizeof ev);
     }
     if (ev.type == EV_KEY && ev.value >= 0)
     {
-    //std::cout << std::string(data_path) << "hello3" << std::endl;
-
         if(shift_bool == 1 && ev.value == 0 && (ev.code == KEY_LEFTSHIFT || ev.code == KEY_RIGHTSHIFT))
         {
-    //std::cout << std::string(data_path) << "hello4" << std::endl;
             shift_bool = 0;
             return NULL;
         }
         if(shift_bool == 0 && ev.value == 1 && (ev.code == KEY_LEFTSHIFT || ev.code == KEY_RIGHTSHIFT))
         {
-    //std::cout << std::string(data_path) << "hello5" << std::endl;
             shift_bool = 1;
             return NULL;
         }
 
     if( ev.value == 1)
-{
-    //std::cout << std::string(data_path) << "hello6" << std::endl;
+    {
         return shift_bool ? getShiftedCharFromKeycode((int)ev.code) : getCharFromKeycode((int)ev.code);}
-
     }
     return NULL;
 }

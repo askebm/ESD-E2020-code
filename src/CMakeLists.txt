@@ -20,5 +20,13 @@ target_link_libraries(DisplayDriverTask Task DisplayDriver)
 add_library(USBDriver USBDriver.cpp)
 target_include_directories(USBDriver PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
+add_library(CardScannerTask CardScannerTask.cpp)
+target_include_directories(CardScannerTask PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(CardScannerTask Task USBDriver)
+
+add_library(BarCodeScannerTask BarCodeScannerTask.cpp)
+target_include_directories(BarCodeScannerTask PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(BarCodeScannerTask Task USBDriver)
+
 
 add_subdirectory(gui)

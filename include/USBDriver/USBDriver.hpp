@@ -1,3 +1,5 @@
+#ifndef USBDRIVER_H
+#define USBDRIVER_H
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -12,7 +14,7 @@ class USBDriver
 {
 public:
 char getDatafromUSB();
-int openDevice(std::string path);
+bool openDevice(std::string path);
 ~USBDriver(){close(fd);}
 
 private:
@@ -21,7 +23,10 @@ struct input_event ev;
 int shift_bool = 0;
 int fd;
 
-char getCharFromKeycode(int keycode);
-char getShiftedCharFromKeycode(int keycode);
+char getCharFromKeycode(int key_code);
+char getShiftedCharFromKeycode(int key_code);
 };
+
+
+#endif
 
