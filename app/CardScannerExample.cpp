@@ -4,10 +4,7 @@
 #include <mutex>
 #include <chrono>
 
-//#include "Task.hpp"
-
-//#include "BarCodeScannerTask.hpp"
-#include "CardScannerTask.hpp"
+#include <CardScannerTask/CardScannerTask.hpp>
 
 #define SAFE_COUT(x) { static std::mutex mtx_cout; mtx_cout.lock(); std::cout << x; mtx_cout.unlock(); }
 using namespace std::chrono_literals;
