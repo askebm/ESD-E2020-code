@@ -13,10 +13,6 @@ class StationBox : public Task
 
 {
 private:
-/*! \enum STATE
- *
- *  States for stationbox
- */
 enum STATES { LOCKED, IDLE, SHOPPING, PAYMENT } mState;    
 enum LOCKED_SUBSTATES { WAITFOR1, WAITFOR2, WAITFOR3, WAITFOR4  } mLockedSubState = WAITFOR1;
 

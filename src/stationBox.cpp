@@ -23,6 +23,7 @@ void StationBox::run() {
            // Station box is locked  
            
            // Unmute the keypad task and wait for 4 numbers
+           // Only enter statemachine if there is a valid event
             if (mCurrentEvent != nullptr)
             {
                 LOCKED_sm();

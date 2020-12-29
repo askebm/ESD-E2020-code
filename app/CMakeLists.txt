@@ -1,6 +1,10 @@
 
 add_executable(stationboxTester stationbox.cpp)
-target_link_libraries(stationboxTester stationbox)
+target_link_libraries(stationboxTester stationbox Task)
+
+add_executable(cashierSystem system.cpp)
+target_link_libraries(cashierSystem stationbox)
+
 
 add_executable(gpioExample gpioExample.cpp)
 target_link_libraries(gpioExample GPIO)
