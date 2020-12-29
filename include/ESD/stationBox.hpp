@@ -1,25 +1,16 @@
 #ifndef STATIONBOX_H
 #define STATIONBOX_H
 
+#include <memory>
 #include <stdio.h>
 #include <string>
 #include <queue>
 
-
-class Event
-{
-private:    
-
-public:
-    Event(){};
-    int name;
-    int* data;
-    int* getData(){return data;}
-};
+#include <Task/Task.hpp>
 
 
+class StationBox : public Task
 
-class StationBox
 {
 private:
 /*! \enum STATE
@@ -28,8 +19,9 @@ private:
  */
 enum STATES { LOCKED, IDLE, SHOPPING, PAYMENT } mState;    
 enum LOCKED_SUBSTATES { WAITFOR1, WAITFOR2, WAITFOR3, WAITFOR4  } mLockedSubState = WAITFOR1;
-Event mCurrentEvent;
 
+
+std::shared_ptr<Event> mCurrentEvent;
 
 void LOCKED_sm();
 
@@ -38,20 +30,17 @@ void LOCKED_sm();
 
 
 
-// TEMP 
-std::queue<Event> event_in;
-std::queue<Event> event_out;
-Event readLatestEvent(bool){
-    Event event = event_in.front();
-    event_in.pop();
-    return event;
-};
 
 public:
-    StationBox();
-    int init();
-    int run();
-     ~StationBox();
+	// must be defined to use Base class constructor
+	using Task::Task;
+	StationBox() = delete;
+	~StationBox() {};
+
+    enum Events { GotPinDigit = 1001 };
+
+    bool init();
+    void run();
 };
 
 #endif /* STATIONBOX_H */

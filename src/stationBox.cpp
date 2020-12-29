@@ -1,53 +1,49 @@
 #include <ESD/stationBox.hpp>
 
 
-/*! \brief Brief function description here
- *
- *  Detailed description
- *
- * \return Return parameter description
- */
-StationBox::StationBox() {
-    
-}
- StationBox::~StationBox() {
-    
-}
 
 
-
-/*! \brief Station box init function
- */
-int StationBox::init() {
+bool StationBox::init() {
     mState = LOCKED; // Initially the station is locked;    
 
 
-    return 0;
+    return true;
 }
 
-/*! \brief run() is continually  called during operation by super thread
- *
- */
-int StationBox::run() {
+void StationBox::run() {
 
     // Grab event from event_in queue
-    mCurrentEvent = readLatestEvent(true);
+   mCurrentEvent = readLatestEvent();
+
  
     // State machine
     switch (mState) {
         case LOCKED: 
+        std::cout << "State: " << "LOCKED"  << std::endl;
            // Station box is locked  
+           
            // Unmute the keypad task and wait for 4 numbers
-           LOCKED_sm();
+            if (mCurrentEvent != nullptr)
+            {
+                LOCKED_sm();
+            }
             break;
         case IDLE:
-            // Unmute keypad and barcode scanner
+            std::cout << "State: " << "IDLE"  << std::endl;
+            // Unmute keypad and barcode scanner to wait for input
+        break;        
 
+        case SHOPPING:
+
+        break;
+
+        case PAYMENT:
+
+        break;
 
             
     }
-
-
+   
 
 }
 
@@ -60,32 +56,41 @@ void StationBox::LOCKED_sm() {
     switch (mLockedSubState) {
         case WAITFOR1:
             passcode = ""; 
-            if (mCurrentEvent.name == 1000)
+            if (mCurrentEvent->id == GotPinDigit)
             {
+                std::cout << "Got one" << std::endl;
                 // got a new number
+                passcode += mCurrentEvent->getData<std::string>();
                 mLockedSubState = WAITFOR2;
             }
             break;
         case WAITFOR2:
-            if (mCurrentEvent.name == 1000)
+            if (mCurrentEvent->id == GotPinDigit)
             {
+                std::cout << "Got two" << std::endl;
                 // got a new number
+                passcode += mCurrentEvent->getData<std::string>();
                 mLockedSubState = WAITFOR3;
             }
             break;
         case WAITFOR3:
-            if (mCurrentEvent.name == 1000)
+            if (mCurrentEvent->id == GotPinDigit)
             {
+                std::cout << "Got three" << std::endl;
                 // got a new number
+                passcode += mCurrentEvent->getData<std::string>();
                 mLockedSubState = WAITFOR4;
             }
             break;
         case WAITFOR4:
-            if (mCurrentEvent.name == 1000)
+            if (mCurrentEvent->id == GotPinDigit)
             {
+                std::cout << "Got four" << std::endl;
                 // got a new number
+                passcode += mCurrentEvent->getData<std::string>();
                 if(passcode == "1234"){
                     // Correct code - Change to IDLE state
+                    std::cout << "Correct passcode" << std::endl;
                     mState = IDLE;
                 }
                 // Reset password sub state
