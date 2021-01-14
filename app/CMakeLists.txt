@@ -1,4 +1,3 @@
-
 add_executable(stationboxTester stationbox.cpp)
 target_link_libraries(stationboxTester stationbox Task)
 
@@ -25,3 +24,8 @@ target_link_libraries(DisplayTaskExample DisplayDriverTask)
 add_executable(TouchDisplayExample TouchDisplayExample.cpp)
 target_include_directories(TouchDisplayExample PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(TouchDisplayExample TouchDisplay)
+
+
+add_executable(CardScannerExample CardScannerExample.cpp)
+target_link_libraries(CardScannerExample CardScannerTask)
+add_deploy_target(CardScannerExample)
