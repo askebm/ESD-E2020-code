@@ -1,6 +1,6 @@
-#include <ESD/gui/DynamicReceipt.hpp>
+#include <ESD/gui/sdl2/DynamicReceipt.hpp>
 #include <iostream>
-#include <ESD/gui/Colors.hpp>
+#include <ESD/gui/sdl2/Colors.hpp>
 #include <cstdlib>
 
 DynamicReceipt::DynamicReceipt(Receipt* r) : receipt(r) {

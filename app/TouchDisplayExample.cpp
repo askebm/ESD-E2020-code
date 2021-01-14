@@ -1,9 +1,9 @@
-#include <ESD/gui/TouchDisplay.hpp>
+#include <ESD/gui/sdl2/TouchDisplaySDL2.hpp>
 #include <iostream>
 
 int main(int argc, char *argv[]) {
 
-	TouchDisplay disp;
+	TouchDisplaySDL2 disp;
 
 	while (true) {
 		disp.process();

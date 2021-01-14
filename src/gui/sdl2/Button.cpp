@@ -1,10 +1,10 @@
-#include <ESD/gui/Button.hpp>
+#include <ESD/gui/sdl2/Button.hpp>
 #include <iostream>
 #include <SDL2/SDL_ttf.h>
 
-#include <ESD/gui/Colors.hpp>
+#include <ESD/gui/sdl2/Colors.hpp>
 
-Button::Button(const SDL_Rect& r,const SDL_Color& c, const std::string& s, SDL_Renderer* ren)
+Button::Button(const SDL_Rect& r,const SDL_Color& c, const std::string& s, SDL_Renderer* ren, void (*)())
 	: color(c), rectangle(r) {
 
 	SDL_SetRenderDrawColor(ren, this->color.r, this->color.g, this->color.b, this->color.a);

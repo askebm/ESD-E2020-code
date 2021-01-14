@@ -23,4 +23,4 @@ target_link_libraries(display_task_example DisplayDriverTask)
 
 add_executable(TouchDisplayExample TouchDisplayExample.cpp)
 target_include_directories(TouchDisplayExample  PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(TouchDisplayExample TouchDisplay)
+target_link_libraries(TouchDisplayExample TouchDisplaySDL2)

@@ -7,7 +7,7 @@
 
 #include <receipt.hpp>
 
-#include <ESD/gui/GraphicsElement.hpp>
+#include <ESD/gui/sdl2/GraphicsElement.hpp>
 
 
 class DynamicReceipt : public GraphicsElement

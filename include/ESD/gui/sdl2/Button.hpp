@@ -1,7 +1,7 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include <ESD/gui/GraphicsElement.hpp>
+#include <ESD/gui/sdl2/GraphicsElement.hpp>
 
 #include <SDL2/SDL.h>
 
