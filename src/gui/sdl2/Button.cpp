@@ -46,10 +46,8 @@ void Button::render(SDL_Renderer* r){
 
 void Button::process(SDL_Event* event) {
 	if (isPressed(event)) {
-		std::cout << "Is Pressed" << std::endl;
-	} else {
-		std::cout << "Nothing" << std::endl;
-	}
+		callback();
+	} 
 }
 
 #define BETWEEN(s,e,l)  ( ((s)<(e)) && ((e)<(l)) )

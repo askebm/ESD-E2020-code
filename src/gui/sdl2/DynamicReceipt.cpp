@@ -3,25 +3,26 @@
 #include <ESD/gui/sdl2/Colors.hpp>
 #include <cstdlib>
 
-DynamicReceipt::DynamicReceipt(Receipt* r) : receipt(r) {
+DynamicReceipt::DynamicReceipt(Receipt* r, const SDL_Rect& rect) : receipt(r), rect(rect) {
 	this->font = TTF_OpenFont("/usr/share/fonts/TTF/DejaVuSans-ExtraLight.ttf",11);
 	if (font == nullptr) {
 		std::cout << SDL_GetError() << std::endl;
 	}
-
 }
 
 DynamicReceipt::~DynamicReceipt(){
 	TTF_CloseFont(this->font);
 }
 
-
 void DynamicReceipt::render(SDL_Renderer* r){
+	if (receipt == nullptr) {
+		std::cout << "Receipt nullptr" << std::endl;
+		return;
+	}
 	auto& color = Colors::black;
 	SDL_SetRenderDrawColor(r, color.r, color.g, color.b, color.a);
-	SDL_Rect rect{0,0,400,480};
 	SDL_RenderFillRect(r, &rect);
-	SDL_Rect dst{0,0,0,0};
+	SDL_Rect dst{rect.x,rect.y,0,0};
 	auto lines = receipt->getReceiptLines();
 	for (const auto& line : lines) {
 		auto tex = lineToTexture(line,r);

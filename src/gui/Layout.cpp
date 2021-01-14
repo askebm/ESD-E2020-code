@@ -3,7 +3,7 @@
 bool Layout::addElement(const Element& e){
 	for (const auto& g : elements) {
 		if (overlaps(g,e)) {
-			return false;
+			//return false;
 		}
 	}
 	elements.push_back(std::move(e));
@@ -23,7 +23,7 @@ bool Layout::overlaps(const Element& e, const Element& g){
 	return (f(e,g) || f(g,e));
 }
 
-Layout::Layout (){
+Layout::Layout (int w,int h): width(w), height(h){
 
 }
 
