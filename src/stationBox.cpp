@@ -19,7 +19,6 @@ void StationBox::run() {
     // State machine
     switch (mState) {
         case LOCKED: 
-        std::cout << "State: " << "LOCKED"  << std::endl;
            // Station box is locked  
            
            // Unmute the keypad task and wait for 4 numbers
@@ -30,7 +29,6 @@ void StationBox::run() {
             }
             break;
         case IDLE:
-            std::cout << "State: " << "IDLE"  << std::endl;
             // Unmute keypad and barcode scanner to wait for input
         break;        
 
@@ -91,7 +89,7 @@ void StationBox::LOCKED_sm() {
                 passcode += mCurrentEvent->getData<std::string>();
                 if(passcode == "1234"){
                     // Correct code - Change to IDLE state
-                    std::cout << "Correct passcode" << std::endl;
+                    std::cout << "Correct passcode - Transition to IDLE state" << std::endl;
                     mState = IDLE;
                 }
                 // Reset password sub state

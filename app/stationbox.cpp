@@ -20,11 +20,13 @@ int main(int argc, char const *argv[])
 {
 
 	// main event queue
-	std::mutex mtx_events;
-	std::queue<Event> events;
+	std::mutex mtx_events_stationbox;
+	std::queue<Event> events_stationbox;
 
 	// instantiate task (can be called without name)
-	StationBox sb("StationBox", events, mtx_events);
+	StationBox sb("StationBox", events_stationbox, mtx_events_stationbox);
+
+    sb.kill(true);
 
 	// start task
 	if (not sb.start())
