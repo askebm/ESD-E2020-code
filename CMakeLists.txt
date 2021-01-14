@@ -19,6 +19,39 @@ project(ESD)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+#Add packages
+find_package(SDL2)
+if (${SDL2_FOUND})
+	message("Found SDL2")
+else()
+	message("Did not find SDL2")
+endif()
+find_package(PkgConfig)
+if (${PkgConfig_FOUND})
+	message("Found PkgConfig")
+else()
+	message("Did not find PkgConfig")
+endif()
+
+pkg_check_modules(SDL2_TTF SDL2_ttf)
+if (${SDL2_TTF_FOUND})
+	message("Found SDL2_TTF")
+else()
+	message("Did not find SDL2_TTF")
+endif()
+
+pkg_check_modules(ZMQ libzmq>=4.2.2)
+if (${ZMQ_FOUND})
+	message("Found ZMQ")
+else()
+	message("Did not find ZMQ")
+endif()
+
+# add external libraries (must come before project dirs)
+add_subdirectory(extern/serialib)
+add_subdirectory(extern/interface_lib)
+
+# add project directories
 add_subdirectory(src)
 add_subdirectory(app)
 
