@@ -22,6 +22,8 @@ std::shared_ptr<Event> mCurrentEvent;
 void LOCKED_sm();
 
 
+// Interface handles
+Task* mBarcodeScannerPtr = nullptr;
 
 
 
@@ -34,9 +36,15 @@ public:
 	~StationBox() {};
 
     enum Events { GotPinDigit = 1001 };
+    enum InterfaceNames {BarcodeScanner};
 
     bool init();
     void run();
+
+
+    // Control handover interface
+    bool addInterface(Task* taskptr,InterfaceNames ifType);
+
 };
 
 #endif /* STATIONBOX_H */

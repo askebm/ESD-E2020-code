@@ -1,4 +1,4 @@
-#include "BarCodeScannerTask.hpp"
+#include <BarCodeScannerTask/BarCodeScannerTask.hpp>
 #include <fcntl.h>
 #include <functional>
 #include <mqueue.h>

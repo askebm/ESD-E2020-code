@@ -1,5 +1,5 @@
 add_executable(stationboxTester stationbox.cpp)
-target_link_libraries(stationboxTester stationbox Task)
+target_link_libraries(stationboxTester stationbox BarCodeScannerTask Task)
 
 add_executable(cashierSystem system.cpp)
 target_link_libraries(cashierSystem stationbox)

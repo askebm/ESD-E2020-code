@@ -101,6 +101,16 @@ void StationBox::LOCKED_sm() {
 
     
 
-
     
+}
+
+bool StationBox::addInterface(Task* taskptr, InterfaceNames ifType)
+{
+    switch (ifType) {
+        case InterfaceNames::BarcodeScanner:
+            mBarcodeScannerPtr = taskptr;  
+            return true;
+            break;
+    }
+    return false;
 }
