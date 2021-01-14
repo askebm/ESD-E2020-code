@@ -4,8 +4,9 @@
 
 #include <ESD/gui/sdl2/Colors.hpp>
 
-Button::Button(const SDL_Rect& r,const SDL_Color& c, const std::string& s, SDL_Renderer* ren, void (*)())
-	: color(c), rectangle(r) {
+Button::Button(const SDL_Rect& r,const SDL_Color& c, const std::string& s, SDL_Renderer* ren,
+		void (*callback)())
+	: color(c), rectangle(r), callback(callback) {
 
 	SDL_SetRenderDrawColor(ren, this->color.r, this->color.g, this->color.b, this->color.a);
 	SDL_RenderFillRect(ren, &(this->rectangle));

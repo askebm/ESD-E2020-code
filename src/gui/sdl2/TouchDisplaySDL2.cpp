@@ -94,6 +94,7 @@ GraphicsElement* TouchDisplaySDL2::elementToSDL(const Layout::Element& e,const d
 			.h=static_cast<int>( (e.end_x - e.start_x)*scale_x )
 	};
 
+
 	switch (e.type) {
 		case Type::Button:
 			{

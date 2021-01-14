@@ -6,7 +6,8 @@ bool Layout::addElement(const Element& e){
 			//return false;
 		}
 	}
-	elements.push_back(std::move(e));
+	elements.push_back(e);
+	
 	return true;
 }
 
