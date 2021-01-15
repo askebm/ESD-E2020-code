@@ -1,4 +1,4 @@
-#include <ESD/driver/receiptPrinterDriver.hpp>
+#include <ESD/driver/ReceiptPrinterDriver.hpp>
 #include <sys/types.h>
 #include <iostream>
 
@@ -20,16 +20,22 @@ void ReceiptPrinterDriver::initialize()
 {
     libusb_init(&m_ctx);
     //VendorID: 1046  ProductID: 20497 For receipt printer
-    m_dev_handle = libusb_open_device_with_vid_pid(m_ctx, m_vendor_id, m_product_id); 
-    
-    if(libusb_kernel_driver_active(m_dev_handle, 0) == 1) //find out if kernel driver is attached
+    m_dev_handle = libusb_open_device_with_vid_pid(m_ctx, m_vendor_id, m_product_id);
+
+    if (m_dev_handle) {
+        if(libusb_kernel_driver_active(m_dev_handle, 0) == 1) //find out if kernel driver is attached
         libusb_detach_kernel_driver(m_dev_handle, 0);
         
-	libusb_claim_interface(m_dev_handle, 0);
+	    libusb_claim_interface(m_dev_handle, 0);
 
-    //Set back to std settings
-    sendCommand( ESC );
-    sendCommand( AT );
+        //Set back to std settings
+        sendCommand( ESC );
+        sendCommand( AT );
+    }
+    else
+    {
+        std::cout << "Was unable to accuire USB interface for Printer." << std::endl;
+    }
 }
 
 

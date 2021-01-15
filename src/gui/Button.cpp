@@ -34,6 +34,7 @@ Button::~Button(){
 
 }
 
+
 void Button::render(SDL_Renderer* r){
 	SDL_SetRenderDrawColor(r, this->color.r, this->color.g, this->color.b, this->color.a);
 	SDL_RenderFillRect(r, &(this->rectangle));

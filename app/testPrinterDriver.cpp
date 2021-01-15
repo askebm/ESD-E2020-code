@@ -1,7 +1,6 @@
+#include <ESD/driver/ReceiptPrinterDriver.hpp>
 #include <iostream>
 #include <string>
-#include <libusb-1.0/libusb.h>
-#include <ESD/driver/receiptPrinterDriver.hpp>
 
 int main(int argc, char *argv[])
 {
@@ -16,7 +15,6 @@ int main(int argc, char *argv[])
     printer.lineFeed(5);
     printer.printLine("Og jeg prøver nu igen");
 
-    std::cout << "Hello World" << std::endl;
 
     return 0;
 }

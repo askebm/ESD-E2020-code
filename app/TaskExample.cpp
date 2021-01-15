@@ -73,8 +73,8 @@ protected:
 				event = new Event(id, data);
 			}
 
-			this->sendEventFromTask(*event);
-			delete event;
+		this->sendEventFromTask(*event);
+		delete event;
 		}
 	};
 };

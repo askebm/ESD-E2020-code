@@ -16,6 +16,8 @@ include(cmake/deploy-test.cmake)
 #Initialise the project (Checks compiler and stuff)
 project(ESD)
 
+#include(cmake/libusb.cmake)
+
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -54,5 +56,7 @@ add_subdirectory(extern/interface_lib)
 # add project directories
 add_subdirectory(src)
 add_subdirectory(app)
+
+message("${CMAKE_FIND_ROOT_PATH}")
 
 # Unit tests tbd
