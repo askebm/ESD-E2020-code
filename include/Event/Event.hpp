@@ -14,7 +14,7 @@ public:
 	int id;
 	std::shared_ptr<void> data;
 
-	Event() = delete;
+	Event(){};
 	
 	template<typename T = void*>
 	Event(int id, const T& data = nullptr) : id(id) { this->data = std::make_shared<T>(T(data)); };

@@ -6,9 +6,9 @@
  */
 #pragma once
 
-#include "include/driver/NumpadDriver/NumpadDriver.hpp"
-#include "Event.hpp"
-#include "include/Task/Task.hpp"
+#include <driver/NumpadDriver/NumpadDriver.hpp>
+#include <Event/Event.hpp>
+#include <Task/Task.hpp>
 #include <thread>
 #include <atomic>
 #include <queue>

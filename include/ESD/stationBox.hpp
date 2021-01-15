@@ -13,8 +13,6 @@ class StationBox : public Task
 
 {
 private:
-enum STATES { LOCKED, IDLE, SHOPPING, PAYMENT } mState;    
-enum LOCKED_SUBSTATES { WAITFOR1, WAITFOR2, WAITFOR3, WAITFOR4  } mLockedSubState = WAITFOR1;
 
 
 std::shared_ptr<Event> mCurrentEvent;

@@ -28,5 +28,9 @@ add_library(BarCodeScannerTask BarCodeScannerTask.cpp)
 target_include_directories(BarCodeScannerTask PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(BarCodeScannerTask Task USBDriver)
 
+add_library(NumpadTask NumpadTask.cpp)
+target_include_directories(NumpadTask PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(NumpadTask Task NumpadDriver)
+
 
 add_subdirectory(gui)
