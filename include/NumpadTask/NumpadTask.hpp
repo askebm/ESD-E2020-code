@@ -28,7 +28,8 @@ public:
 		CLEAR   = 1002,
 		ENTER   = 1003,          // Barcode numbers pressed before this must be in data
         TOTAL   = 1004,
-        CANCEL  = 1005
+        CANCEL  = 1005,
+        CASH    = 1006,
 	};
 
 	// Messages.

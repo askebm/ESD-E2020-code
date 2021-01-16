@@ -272,11 +272,20 @@ int main(int argc, char const *argv[])
                     // TOTAL was pressed
                     sm_State = STATES::PAYMENT;
                     // Present total to custommer 
+                    // TODO Events to show information on customer display
+
                     
                     break;
             }
 
 
+            // Trap and wait for event
+            while (!currentEvent)
+            {
+               currentEvent = nextEvent(qmpairs);
+            }
+            switch (currentEvent->id) {
+            }
 
 
 
