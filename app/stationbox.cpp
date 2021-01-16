@@ -13,6 +13,7 @@
 #include <Task/Task.hpp>
 #include <queue>
 #include <thread>
+#include <unistd.h>
 
 #define SAFE_COUT(x) { static std::mutex mtx_cout; mtx_cout.lock(); std::cout << x; mtx_cout.unlock(); }
 
@@ -54,11 +55,10 @@ typedef std::pair< std::queue<Event>*, std::mutex*> QMpair;
 
 std::shared_ptr<Event> nextEvent( std::vector<QMpair> v )
 {
-    auto currentEvent= std::make_shared<Event>();
-    for (auto qmp : v)
+    for (auto& qmp : v)
     {
-        currentEvent = Task::getEventFromQueue(*qmp.first,*qmp.second); 
-        if (currentEvent != nullptr)
+        auto currentEvent = Task::getEventFromQueue(*qmp.first,*qmp.second); 
+        if (currentEvent)
         {
             return currentEvent;
         }
@@ -67,7 +67,33 @@ std::shared_ptr<Event> nextEvent( std::vector<QMpair> v )
    return nullptr; 
 }
 
+void sendEvent(std::shared_ptr<Event> e, std::queue<Event>* q, std::mutex* m)
+{
+		std::lock_guard<std::mutex> lock(*m);
+		q->push(*e);
+}
 
+void enviromentAgent( std::vector<QMpair> v)
+{
+    std::this_thread::sleep_for(1000ms);
+    auto eptr = std::make_shared<Event>(Event(NumpadDriverTask::Command::GET_PIN,std::string("1235")));
+    std::cout << "[Event] " << "Wrong pin code" << std::endl;
+    sendEvent(eptr,v[1].first, v[1].second);
+    std::cout << "[Event] " << "Wrong pin code" << std::endl;
+    sendEvent(eptr,v[1].first, v[1].second);
+    std::cout << "[Event] " << "Wrong pin code" << std::endl;
+    sendEvent(eptr,v[1].first, v[1].second);
+    std::cout << "[Event] " << "Wrong pin code" << std::endl;
+    sendEvent(eptr,v[1].first, v[1].second);
+    std::cout << "[Event] " << "Wrong pin code" << std::endl;
+    std::this_thread::sleep_for(1000ms);
+
+
+    std::cout << "[Event] " << "Correct pin code" << std::endl;
+    eptr = std::make_shared<Event>(Event(NumpadDriverTask::Command::GET_PIN,std::string("1234")));
+    sendEvent(eptr,v[1].first, v[1].second);
+    
+}
 
 int main(int argc, char const *argv[])
 {
@@ -113,14 +139,18 @@ int main(int argc, char const *argv[])
     // All Tasks started without error
 
 
+    // Start Enviroment simulator
+    std::thread simAgent(enviromentAgent, qmpairs);
+
+
     // Start stationbox locked
     STATES sm_State = LOCKED;
     
     while(1){
-
+        // Dont trash CPU
+         std::this_thread::sleep_for(20ms);
         // Grab an event if there is any
-        auto currentEvent= std::make_shared<Event>();
-        currentEvent = nextEvent(qmpairs);
+        auto currentEvent = nextEvent(qmpairs);
 
 
     std::cout << "State: " << sm_State << std::endl;
@@ -129,21 +159,25 @@ int main(int argc, char const *argv[])
         case LOCKED: 
            // Station box is locked  
            // Unmute the keypad task and wait for a pin
+            std::cout << "Here" << std::endl;
             keypadTask.unmute();
             keypadTask.sendEventToTask(Event(NumpadDriverTask::GET_PIN));
             
-             while (currentEvent == nullptr)
+             while (!currentEvent)
              {
                 currentEvent = nextEvent(qmpairs);
+                
              }
+             std::cout << "Got event" << std::endl;
 
                 // Recived event, check type
                 if (currentEvent->id == NumpadDriverTask::Command::GET_PIN)
                 {
+                    std::cout << "Event is " << NumpadDriverTask::Command::GET_PIN << std::endl;
                     // Pin code recieved
                     if ( currentEvent->getData<std::string>() == "1234")
                     {
-                        SAFE_COUT("Correct passcode, transition to IDLE");
+                        std::cout << "Correct passcode, transition to IDLE" << std::endl;
                         sm_State = STATES::IDLE;
                         keypadTask.mute();
                     }
@@ -171,13 +205,12 @@ int main(int argc, char const *argv[])
 
 
 
-    
+     
 
 
-while(true){};
 
-	return 0;
 }
+	return 0;
 }
 
 
