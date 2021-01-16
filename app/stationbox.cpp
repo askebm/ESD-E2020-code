@@ -153,35 +153,35 @@ int main(int argc, char const *argv[])
         auto currentEvent = nextEvent(qmpairs);
 
 
-    std::cout << "State: " << sm_State << std::endl;
-    // State machine
-    switch (sm_State) {
-        case LOCKED: 
-           // Station box is locked  
-           // Unmute the keypad task and wait for a pin
-            std::cout << "Here" << std::endl;
-            keypadTask.unmute();
-            keypadTask.sendEventToTask(Event(NumpadDriverTask::GET_PIN));
-            
-             while (!currentEvent)
-             {
-                currentEvent = nextEvent(qmpairs);
+        std::cout << "State: " << sm_State << std::endl;
+        // State machine
+        switch (sm_State) {
+            case LOCKED: 
+               // Station box is locked  
+               // Unmute the keypad task and wait for a pin
+                std::cout << "Here" << std::endl;
+                keypadTask.unmute();
+                keypadTask.sendEventToTask(Event(NumpadDriverTask::GET_PIN));
                 
-             }
-             std::cout << "Got event" << std::endl;
+                 while (!currentEvent)
+                 {
+                    currentEvent = nextEvent(qmpairs);
+                    
+                 }
+                 std::cout << "Got event" << std::endl;
 
-                // Recived event, check type
-                if (currentEvent->id == NumpadDriverTask::Command::GET_PIN)
-                {
-                    std::cout << "Event is " << NumpadDriverTask::Command::GET_PIN << std::endl;
-                    // Pin code recieved
-                    if ( currentEvent->getData<std::string>() == "1234")
+                    // Recived event, check type
+                    if (currentEvent->id == NumpadDriverTask::Command::GET_PIN)
                     {
-                        std::cout << "Correct passcode, transition to IDLE" << std::endl;
-                        sm_State = STATES::IDLE;
-                        keypadTask.mute();
+                        std::cout << "Event is " << NumpadDriverTask::Command::GET_PIN << std::endl;
+                        // Pin code recieved
+                        if ( currentEvent->getData<std::string>() == "1234")
+                        {
+                            std::cout << "Correct passcode, transition to IDLE" << std::endl;
+                            sm_State = STATES::IDLE;
+                            keypadTask.mute();
+                        }
                     }
-                }
 
 
 
