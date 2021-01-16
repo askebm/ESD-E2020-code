@@ -24,8 +24,11 @@ public:
 
 	enum Command
 	{
-		GET_PIN = 1, 
-		CLEAR   = 2
+		GET_PIN = 1001, 
+		CLEAR   = 1002,
+		ENTER   = 1003,          // Barcode numbers pressed before this must be in data
+        TOTAL   = 1004,
+        CANCEL  = 1005
 	};
 
 	// Messages.

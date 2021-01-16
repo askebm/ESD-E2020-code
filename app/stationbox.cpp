@@ -15,6 +15,9 @@
 #include <thread>
 #include <unistd.h>
 
+#include "../extern/interface_lib/receipt.hpp"
+
+
 #define SAFE_COUT(x) { static std::mutex mtx_cout; mtx_cout.lock(); std::cout << x; mtx_cout.unlock(); }
 
 using namespace std::chrono_literals;
@@ -75,25 +78,49 @@ void sendEvent(std::shared_ptr<Event> e, std::queue<Event>* q, std::mutex* m)
 
 void enviromentAgent( std::vector<QMpair> v)
 {
+    // Login
+     
     std::this_thread::sleep_for(1000ms);
     auto eptr = std::make_shared<Event>(Event(NumpadDriverTask::Command::GET_PIN,std::string("1235")));
-    std::cout << "[Event] " << "Wrong pin code" << std::endl;
+    std::cout << "[EventGenerator] " << "Sending wrong pin code" << std::endl;
     sendEvent(eptr,v[1].first, v[1].second);
-    std::cout << "[Event] " << "Wrong pin code" << std::endl;
+    std::cout << "[EventGenerator] " << "Sending wrong pin code" << std::endl;
     sendEvent(eptr,v[1].first, v[1].second);
-    std::cout << "[Event] " << "Wrong pin code" << std::endl;
+    std::cout << "[EventGenerator] " << "Sending wrong pin code" << std::endl;
     sendEvent(eptr,v[1].first, v[1].second);
-    std::cout << "[Event] " << "Wrong pin code" << std::endl;
+    std::cout << "[EventGenerator] " << "Sending wrong pin code" << std::endl;
     sendEvent(eptr,v[1].first, v[1].second);
-    std::cout << "[Event] " << "Wrong pin code" << std::endl;
+    std::cout << "[EventGenerator] " << "Sending wrong pin code" << std::endl;
     std::this_thread::sleep_for(1000ms);
 
 
-    std::cout << "[Event] " << "Correct pin code" << std::endl;
+    std::cout << "[EventGenerator] " << "Sending correct pin code" << std::endl;
     eptr = std::make_shared<Event>(Event(NumpadDriverTask::Command::GET_PIN,std::string("1234")));
     sendEvent(eptr,v[1].first, v[1].second);
+
+
+
+    // Barcode scanner
+
+    std::this_thread::sleep_for(1000ms);
+    std::cout << "[EventGenerator] " << "Barcode scanned" << std::endl;
+    eptr = std::make_shared<Event>(Event(BarCodeScannerTask::Command::GET_BARCODE,1234123412341324));
+    sendEvent(eptr,v[0].first, v[0].second);
+
+    std::this_thread::sleep_for(300ms);
+    std::cout << "[EventGenerator] " << "Barcode scanned" << std::endl;
+    eptr = std::make_shared<Event>(Event(BarCodeScannerTask::Command::GET_BARCODE,1234123412341324));
+    sendEvent(eptr,v[0].first, v[0].second);
+
+    std::this_thread::sleep_for(300ms);
+    std::cout << "[EventGenerator] " << "Barcode scanned" << std::endl;
+    eptr = std::make_shared<Event>(Event(BarCodeScannerTask::Command::GET_BARCODE,1234123412341324));
+    sendEvent(eptr,v[0].first, v[0].second);
     
 }
+
+
+
 
 int main(int argc, char const *argv[])
 {
@@ -142,6 +169,12 @@ int main(int argc, char const *argv[])
     // Start Enviroment simulator
     std::thread simAgent(enviromentAgent, qmpairs);
 
+    // Event vars
+    auto lastEvent = std::make_shared<Event>();
+    auto currentEvent = std::make_shared<Event>();
+
+    // Receipt ptr
+    std::shared_ptr<Receipt> receipt = std::make_shared<Receipt>();   
 
     // Start stationbox locked
     STATES sm_State = LOCKED;
@@ -150,16 +183,17 @@ int main(int argc, char const *argv[])
         // Dont trash CPU
          std::this_thread::sleep_for(20ms);
         // Grab an event if there is any
-        auto currentEvent = nextEvent(qmpairs);
+
+        lastEvent = currentEvent;
+        currentEvent = nextEvent(qmpairs);
 
 
-        std::cout << "State: " << sm_State << std::endl;
+        std::cout << "[INFO] State: " << sm_State << std::endl;
         // State machine
         switch (sm_State) {
             case LOCKED: 
                // Station box is locked  
                // Unmute the keypad task and wait for a pin
-                std::cout << "Here" << std::endl;
                 keypadTask.unmute();
                 keypadTask.sendEventToTask(Event(NumpadDriverTask::GET_PIN));
                 
@@ -173,7 +207,7 @@ int main(int argc, char const *argv[])
                     // Recived event, check type
                     if (currentEvent->id == NumpadDriverTask::Command::GET_PIN)
                     {
-                        std::cout << "Event is " << NumpadDriverTask::Command::GET_PIN << std::endl;
+                        std::cout << "Event is " << NumpadDriverTask::Command::GET_PIN << " GOTPIN" <<  std::endl;
                         // Pin code recieved
                         if ( currentEvent->getData<std::string>() == "1234")
                         {
@@ -183,14 +217,69 @@ int main(int argc, char const *argv[])
                         }
                     }
 
-
-
             break;
         case IDLE:
             // Unmute keypad and barcode scanner to wait for input
+            keypadTask.unmute();
+            barcodeScannerTask.unmute();
+
+            // Trap and wait for event
+            while (!currentEvent)
+            {
+               currentEvent = nextEvent(qmpairs);
+            }
+
+            switch (currentEvent->id) {
+                case BarCodeScannerTask::Command::GET_BARCODE:
+                    // A barcode have been scanned with the scanner and is avaliable in the event  
+                    sm_State = STATES::SHOPPING;
+                    std::cout <<  "Addning scanned input to receipt" << std::endl;
+                    receipt->addReceiptLine(currentEvent->getData<long  unsigned int>(),10,1 );
+                    break;
+                case NumpadDriverTask::Command::ENTER:
+                    // Enter (D) was pressed on keypad and barcode number is avaliable in the event
+                    sm_State = STATES::SHOPPING;
+                    // Add the item that caused the move to SHOPPING state 
+                    std::cout <<  "Addning Manual input to receipt" << std::endl;
+                    receipt->addReceiptLine(currentEvent->getData<long  unsigned int>(),10,1 );
+                    break;
+            }
+
         break;        
 
         case SHOPPING:
+            
+            // Trap and wait for event
+            while (!currentEvent)
+            {
+               currentEvent = nextEvent(qmpairs);
+            }
+
+            switch (currentEvent->id) {
+                case BarCodeScannerTask::Command::GET_BARCODE:
+                    // A barcode have been scanned with the scanner and is avaliable in the event  
+                    std::cout <<  "Addning scanned input to receipt" << std::endl;
+                    receipt->addReceiptLine(currentEvent->getData<long  unsigned int>(),10,1 );
+                    break;
+                case NumpadDriverTask::Command::ENTER:
+                    // Enter (D) was pressed on keypad and barcode number is avaliable in the event
+                    // Add the item that caused the move to SHOPPING state 
+                    std::cout <<  "Addning Manual input to receipt" << std::endl;
+                    receipt->addReceiptLine(currentEvent->getData<long  unsigned int>(),10,1 );
+                    break;
+
+                case NumpadDriverTask::Command::TOTAL:
+                    // TOTAL was pressed
+                    sm_State = STATES::PAYMENT;
+                    // Present total to custommer 
+                    
+                    break;
+            }
+
+
+
+
+
 
         break;
 
