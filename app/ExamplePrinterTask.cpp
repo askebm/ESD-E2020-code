@@ -13,41 +13,46 @@ int main(int argc, char *argv[])
 		exit(-1);
 	}
     
-    ReceiptPrinterTask::ReceiptItems receipt;
+    int receipt_number = 0;
     
-    std::vector<std::string> items;
-    std::vector<std::string> quantity;
-    std::vector<std::string> item_price;
-    std::vector<std::string> line_sum;
-    std::string receipt_sum;
-    std::string receipt_id;
-
-    items.push_back("Chicken");
-    items.push_back("Paper");
-    quantity.push_back("2"); //Number of Chickens
-    quantity.push_back("10"); //Number of Papers.
-    item_price.push_back("24.95"); //Price of one Chicken.
-    item_price.push_back("22.99"); //Price of one Paper.
-    line_sum.push_back("49.90"); //Sum of Chickes.
-    line_sum.push_back("229.90"); //Sum of Papers.
-    
-    receipt_sum = std::string("279.80"); // Total purchase price.
-    receipt_id = std::string("123456789"); // Receipt ID.
-
-    receipt.items = items;
-    receipt.quantity = quantity;
-    receipt.item_price = item_price;
-    receipt.receipt_sum = receipt_sum;
-    receipt.receipt_id = receipt_id;
-    receipt.line_sum = line_sum;
-
-    auto e = Event(ReceiptPrinterTask::RECEIVED_RECEIPT, receipt);
-	task.sendEventToTask(e);
-
     while (true) 
     {
+        ReceiptPrinterTask::ReceiptItems receipt;
+
         std::cout << "Main Running" << std::endl;
         std::this_thread::sleep_for(3s);
+        
+        receipt.items.push_back("Pepsi");
+        receipt.items.push_back("Pepsi MAX lime flavour");
+        receipt.items.push_back("Raspberry Pi Model B 4GB RAM");
+        receipt.quantity.push_back("2"); //Number of Pepsies
+        receipt.quantity.push_back("10"); //Number of Pepsie MAX's.
+        receipt.quantity.push_back("1"); //Number of Raspberry Pis.
+        receipt.item_price.push_back("15"); //Price of one Pepsi.
+        receipt.item_price.push_back("15"); //Price of one Pepsi Max.
+        receipt.item_price.push_back("429"); //Price of one Paper.
+        receipt.line_sum.push_back("30"); //Sum of Pepsies.
+        receipt.line_sum.push_back("150"); //Sum of Pepsi Max's.
+        receipt.line_sum.push_back("429"); //Sum of Raspberry PI's.
+        
+        receipt.receipt_sum = std::string("609"); // Total purchase price.
+        receipt.receipt_id = std::string(std::to_string(receipt_number)); // Receipt ID.
+
+        auto e = Event(ReceiptPrinterTask::RECEIVED_RECEIPT, receipt);
+        task.sendEventToTask(e);
+
+        receipt_number++;
+
+
+        // check for events from tasks (using helper method)
+		auto event = ReceiptPrinterTask::getEventFromQueue(events, mtx_events);
+		if(not event)
+            continue;
+
+        if (*event == ReceiptPrinterTask::RECIEPT_PRINTER_NO_PAPER)
+            std::cout << "No more paper in printer." << std::endl;
+
+
     }
 
     return 0;

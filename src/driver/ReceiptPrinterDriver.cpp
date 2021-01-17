@@ -1,6 +1,7 @@
 #include <ESD/driver/ReceiptPrinterDriver.hpp>
 #include <sys/types.h>
 #include <iostream>
+#include <thread>
 
 ReceiptPrinterDriver::ReceiptPrinterDriver()
 {
@@ -63,6 +64,30 @@ void ReceiptPrinterDriver::send(unsigned char* data, int length_of_data)
 void ReceiptPrinterDriver::sendCommand(unsigned char* command)
 {
     send(command, 1);
+}
+
+char ReceiptPrinterDriver::read()
+{
+    int actual;
+    unsigned char* in;
+    libusb_bulk_transfer(m_dev_handle, (2 | LIBUSB_ENDPOINT_IN), in, 1, &actual, 0);
+
+    return (char)*in;
+}
+
+bool ReceiptPrinterDriver::getPaperStatus()
+{
+    sendCommand(ESC);
+    sendCommand(DLE);
+    sendCommand(EOT);
+    sendCommand(N);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(40));
+
+    if( read() )
+        return false;
+    else
+        return true;
 }
 
 void ReceiptPrinterDriver::disable()

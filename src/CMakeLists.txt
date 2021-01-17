@@ -8,7 +8,7 @@ add_library(Task Task.cpp)
 target_include_directories(Task PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(Task Event pthread)
 
-add_library(receiptPrinterTask ReceiptPrinterTask.cpp)
+add_library(receiptPrinterTask ReceiptPrinterTask.cpp ReceiptFormatter.cpp)
 target_include_directories(receiptPrinterTask PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(receiptPrinterTask Task receiptPrinterDriver)
 

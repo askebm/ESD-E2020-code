@@ -18,23 +18,40 @@ void ReceiptPrinterTask::run()
     if(event && *event == Printer::RECEIVED_RECEIPT)
     {
         //Format
-        printReceipt(event->getData<ReceiptItems>());
-    }
+        ReceiptFormatter formatter(event->getData<ReceiptItems>());
+        std::vector<std::string> formatted_receipt = formatter.formatReceipt();
 
-    std::this_thread::sleep_for(2s);
+        printReceipt(formatted_receipt);
+    }
 }
 
-void ReceiptPrinterTask::printReceipt(ReceiptItems receivedReceipt)
+void ReceiptPrinterTask::printReceipt(std::vector<std::string> formatted_receipt)
 {
-    std::cout << "Printing Receipt" << std::endl;
-    
-    for (int i = 0; i < receivedReceipt.items.size(); ++i)
+    for (int i = 0; i < formatted_receipt.size(); ++i) 
     {
-        std::cout << receivedReceipt.items.at(i) << " , " << receivedReceipt.quantity.at(i) << " , " 
-            << receivedReceipt.item_price.at(i) << " , " << receivedReceipt.line_sum.at(i) << " , " << std::endl;    
+        if (m_printer.getPaperStatus()) 
+        {
+            if (formatted_receipt[i].empty()) 
+            {
+                //m_printer.lineFeed(1);
+                std::cout << std::endl;
+            }
+            else
+            {
+                std::cout << formatted_receipt[i] << std::endl;
+                //m_printer.printLine(formatted_receipt[i]); 
+            }
+        }
+        else
+        {
+		    Event *paper_out = new Event(RECIEPT_PRINTER_NO_PAPER, 0);
+            
+            this->sendEventFromTask(*paper_out);
+           
+            delete paper_out;
+        }
     }
-    std::cout << "Total: " << receivedReceipt.receipt_sum << std::endl;
-    std::cout << "Receipt ID: " << receivedReceipt.receipt_id << std::endl;
+
 }
 
-
+		
