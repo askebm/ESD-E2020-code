@@ -5,7 +5,7 @@
 int main(int argc, char *argv[])
 {
     ReceiptPrinterDriver printer;
-
+    
     //VendorID: 1046  ProductID: 20497 For receipt printer
     printer.configure(1046, 20497);
     printer.initialize();
@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     printer.lineFeed(5);
     printer.printLine("Og jeg prøver nu igen");
 
-    std::cout << "Paper status: " << printer.getPaperStatus() << std::endl;
+//    std::cout << "Paper status: " << printer.getPaperStatus() << std::endl;
 
     
     return 0;

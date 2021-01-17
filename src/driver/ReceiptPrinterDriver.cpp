@@ -77,6 +77,8 @@ char ReceiptPrinterDriver::read()
 
 bool ReceiptPrinterDriver::getPaperStatus()
 {
+    return true;
+
     sendCommand(ESC);
     sendCommand(DLE);
     sendCommand(EOT);
@@ -84,7 +86,7 @@ bool ReceiptPrinterDriver::getPaperStatus()
 
     std::this_thread::sleep_for(std::chrono::milliseconds(40));
 
-    if( read() )
+    if( read() == 0x60 )
         return false;
     else
         return true;

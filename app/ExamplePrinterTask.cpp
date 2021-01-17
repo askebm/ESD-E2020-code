@@ -51,8 +51,6 @@ int main(int argc, char *argv[])
 
         if (*event == ReceiptPrinterTask::RECIEPT_PRINTER_NO_PAPER)
             std::cout << "No more paper in printer." << std::endl;
-
-
     }
 
     return 0;
