@@ -1,6 +1,7 @@
 #ifndef RECEIPTPRINTERTASK_H
 #define RECEIPTPRINTERTASK_H
 
+//#include <ESD/ReceiptFormatter.hpp>
 #include <ESD/driver/ReceiptPrinterDriver.hpp>
 #include <Task/Task.hpp>
 #include <memory>
@@ -11,7 +12,6 @@
 #include <array>
 #include <mutex>
 #include <chrono>
-
 
 using namespace std::chrono_literals;
 
@@ -37,7 +37,8 @@ public:
 
     enum Printer
     {
-        RECEIVED_RECEIPT = 1
+        RECEIVED_RECEIPT = 1,
+        RECIEPT_PRINTER_NO_PAPER = 2
     };
     ReceiptPrinterTask() = delete;
     ~ReceiptPrinterTask();
@@ -45,13 +46,31 @@ public:
     virtual bool init() override;
     virtual void run() override;
 
-    void printReceipt(ReceiptItems);
-
+    void printReceipt(std::vector<std::string> formatted_receipt);
     
 protected:
     ReceiptPrinterDriver m_printer;        
     ReceiptItems m_receiptItems;
 
+};
+
+class ReceiptFormatter
+{
+private:
+    void addHeading(std::string heading);
+    void addItemLine(std::string item, std::string qty, std::string price, std::string line_sum);
+    void addSum(std::string receipt_sum);
+    void addReceiptId(std::string receipt_id); 
+    void addEmptyLines(int number_of_lines);
+
+    ReceiptPrinterTask::ReceiptItems m_receipt;
+    std::vector<std::string> m_formatted_receipt;
+
+public:
+    ReceiptFormatter(ReceiptPrinterTask::ReceiptItems receipt);
+    ~ReceiptFormatter();
+
+    std::vector<std::string> formatReceipt();
 };
 
 #endif /* RECEIPTPRINTERTASK_H */

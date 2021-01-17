@@ -15,7 +15,9 @@ int main(int argc, char *argv[])
     printer.lineFeed(5);
     printer.printLine("Og jeg prøver nu igen");
 
+    std::cout << "Paper status: " << printer.getPaperStatus() << std::endl;
 
+    
     return 0;
 }
 
