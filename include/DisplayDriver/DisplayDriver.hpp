@@ -3,7 +3,7 @@
 #include <string>
 #include <array>
 
-#include <serialib.h>
+#include "../extern/serialib/serialib.h"
 
 class DisplayDriver
 {
