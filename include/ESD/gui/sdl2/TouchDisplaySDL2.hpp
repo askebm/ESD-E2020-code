@@ -22,14 +22,15 @@ public:
 	~TouchDisplaySDL2 ();
 
 	void render();
-	void process();
+	void process() override;
 	void clear();
 
 	GraphicsElement* elementToSDL(const Layout::Element&,const double&,const double&);
 
 	// From interface
-	void addModal(const Modal::shr_ptr& m);
-	void deployLayout(const Layout::shr_ptr& l);
+	void addModal(const Modal::shr_ptr& m) override;
+	void deployLayout(const Layout::shr_ptr& l) override;
+	void deployLayout(Layout* l) override;
 };
 
 #endif /* TOUCHDISPLAY_H */

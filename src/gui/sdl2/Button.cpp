@@ -5,8 +5,8 @@
 #include <ESD/gui/sdl2/Colors.hpp>
 
 Button::Button(const SDL_Rect& r,const SDL_Color& c, const std::string& s, SDL_Renderer* ren,
-		void (*callback)())
-	: color(c), rectangle(r), callback(callback) {
+		void (*callback)(void*),void *data)
+	: color(c), rectangle(r), callback(callback), data(data) {
 
 	SDL_SetRenderDrawColor(ren, this->color.r, this->color.g, this->color.b, this->color.a);
 	SDL_RenderFillRect(ren, &(this->rectangle));
@@ -31,12 +31,9 @@ Button::Button(const SDL_Rect& r,const SDL_Color& c, const std::string& s, SDL_R
 	TTF_CloseFont(font);
 }
 
-Button::~Button(){
-
-}
 
 void Button::render(SDL_Renderer* r){
-	SDL_SetRenderDrawColor(r, this->color.r, this->color.g, this->color.b, this->color.a);
+	SDL_SetRenderDrawColor(r, this->color.r, this->color.g, this->color.b, 255);
 	SDL_RenderFillRect(r, &(this->rectangle));
 	SDL_Rect dst;
 	SDL_QueryTexture(this->texture, NULL, NULL, &(dst.w), &(dst.h));
@@ -47,7 +44,7 @@ void Button::render(SDL_Renderer* r){
 
 void Button::process(SDL_Event* event) {
 	if (isPressed(event)) {
-		callback();
+		callback(data);
 	} 
 }
 

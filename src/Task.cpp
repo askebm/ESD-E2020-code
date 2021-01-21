@@ -97,6 +97,7 @@ std::shared_ptr<Event>
 Task::readLatestEvent()
 {
 	return Task::getEventFromQueue(events_in, mtx_events_in);
+
 }
 
 std::shared_ptr<Event>

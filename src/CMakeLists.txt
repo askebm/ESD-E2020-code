@@ -17,5 +17,8 @@ add_library(DisplayDriverTask DisplayDriverTask.cpp)
 target_include_directories(DisplayDriverTask PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(DisplayDriverTask Task DisplayDriver)
 
-
 add_subdirectory(gui)
+
+add_library(CashierTouchDisplayTask CashierTouchDisplayTask.cpp)
+target_include_directories(CashierTouchDisplayTask PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(CashierTouchDisplayTask Receipt TouchDisplaySDL2 Event Task)

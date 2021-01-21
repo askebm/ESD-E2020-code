@@ -5,16 +5,18 @@
 #include <vector>
 #include <string>
 #include <receipt.hpp>
+#include <functional>
 
 class Layout {
 public:
 	struct Element {
 		unsigned int start_x,start_y,end_y,end_x;
-		void (*callback)()=nullptr;
+		void (*callback)(void*)=nullptr;
 		std::string text;
 		enum Type {Button,Receipt};
 		Type type;
 		class Receipt* receipt;
+		void* data;
 	};
 
 

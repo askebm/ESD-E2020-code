@@ -8,7 +8,7 @@
 
 TouchDisplaySDL2::TouchDisplaySDL2 (int w, int h) :
 width(w), height(h){
-	if (SDL_Init(SDL_INIT_VIDEO) != 0 ){
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0 ){
 		std::cout << SDL_GetError() << std::endl;
 	}
 	window = SDL_CreateWindow("TouchDisplay",0,0,width,height,SDL_WINDOW_SHOWN);
@@ -56,7 +56,7 @@ void  TouchDisplaySDL2::process (){
 
 void TouchDisplaySDL2::render(){
 	// Render result
-	SDL_SetRenderDrawColor(renderer,0,0,0,255);
+	SDL_SetRenderDrawColor(renderer,0	,0	,0	,255	);
 	SDL_RenderClear(renderer);
 	for (const auto&	e : this->elements) {
 		e->render(this->renderer);
@@ -77,10 +77,7 @@ void TouchDisplaySDL2::clear(){
 	for (GraphicsElement* e : elements) {
 		delete(e);
 	}
-	if (elements.size() != 0) {
-		elements.erase(elements.begin());
-		
-	}
+	elements = std::vector<GraphicsElement*>();
 }
 
 GraphicsElement* TouchDisplaySDL2::elementToSDL(const Layout::Element& e,const double& scale_x,const double& scale_y){
@@ -90,15 +87,14 @@ GraphicsElement* TouchDisplaySDL2::elementToSDL(const Layout::Element& e,const d
 	SDL_Rect rect{
 		.x = static_cast<int>(e.start_x*scale_x),
 			.y=static_cast<int>(e.start_y*scale_y), 
-			.w=static_cast<int>( (e.end_y - e.start_y)*scale_y ),
-			.h=static_cast<int>( (e.end_x - e.start_x)*scale_x )
+			.w=static_cast<int>( (e.end_x - e.start_x)*scale_x ),
+			.h=static_cast<int>( (e.end_y - e.start_y)*scale_y )
 	};
-
 
 	switch (e.type) {
 		case Type::Button:
 			{
-				auto btn = new Button(rect,Colors::red,e.text,renderer,e.callback);
+				auto btn = new Button(rect,Colors::red,e.text,renderer,e.callback,e.data);
 				e_sdl = btn;
 			}
 			break;
@@ -109,15 +105,16 @@ GraphicsElement* TouchDisplaySDL2::elementToSDL(const Layout::Element& e,const d
 			}
 			break;
 		default: 
-			break;
+			;
 	}
 	return e_sdl;
 }
 
-
-void TouchDisplaySDL2::deployLayout(const Layout::shr_ptr& l){
+void TouchDisplaySDL2::deployLayout(Layout* l){
+	std::cout << "Deploy layout" << std::endl;
 	clear();
-	auto& basic_elements = l->getElements();
+	
+	auto basic_elements = l->getElements();
 
 	double scale_x = double(width)/l->getWidth();
 	double scale_y = double(height)/l->getHeight();
@@ -126,6 +123,10 @@ void TouchDisplaySDL2::deployLayout(const Layout::shr_ptr& l){
 		elements.push_back(elementToSDL(be,scale_x,scale_y));
 	}
 	render();
+}
+
+void TouchDisplaySDL2::deployLayout(const Layout::shr_ptr& l){
+	this->deployLayout(l.get());
 }
 
 
